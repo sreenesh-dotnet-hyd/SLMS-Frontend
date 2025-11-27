@@ -1,0 +1,35 @@
+.userprofile-container {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.userprofile-tabs {
+  display: flex;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.userprofile-tabs button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+.userprofile-tabs button.active {
+  background: #007bff;
+  color: #fff;
+}
+
+.userprofile-content {
+  margin-top: 15px;
+}
+
+.userprofile-section p {
+  margin: 6px 0;
+}

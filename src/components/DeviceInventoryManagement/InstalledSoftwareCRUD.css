@@ -1,0 +1,59 @@
+.isc-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.isc-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.isc-nav button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #f0f0f0;
+  transition: 0.3s;
+}
+
+.isc-nav button.active {
+  background: #007bff;
+  color: white;
+}
+
+.isc-nav button:hover {
+  background: #e0e0e0;
+}
+
+.isc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.isc-form input,
+.isc-form select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.isc-form button {
+  padding: 12px;
+  background: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.isc-form button:hover {
+  background: #0066d6;
+}

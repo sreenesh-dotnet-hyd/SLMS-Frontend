@@ -1,0 +1,14 @@
+.userdevices-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.userdevices-table th, .userdevices-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.userdevices-table tbody tr:hover {
+  background: #f9fafc;
+}

@@ -1,0 +1,28 @@
+.assignedlicenses-container {
+  margin-top: 15px;
+}
+
+.assign-btn {
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.assignedlicenses-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.assignedlicenses-table th, .assignedlicenses-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.assignedlicenses-table tbody tr:hover {
+  background: #f9fafc;
+}

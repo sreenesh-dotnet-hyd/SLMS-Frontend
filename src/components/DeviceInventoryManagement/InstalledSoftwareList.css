@@ -1,0 +1,72 @@
+.isl-container {
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+.isl-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.isl-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.isl-table th,
+.isl-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+}
+
+.isl-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+.isl-table tbody tr:hover {
+  background: #f9fafc;
+}
+
+.isl-empty {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #777;
+  border: 1px solid #eee;
+}
+
+/* Status badges */
+.isl-status {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.isl-status.active {
+  background: #28a745;
+}
+
+.isl-status.retired {
+  background: #d9534f;
+}
+
+.isl-status.pending {
+  background: #f0ad4e;
+}

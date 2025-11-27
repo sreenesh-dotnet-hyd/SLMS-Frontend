@@ -1,0 +1,38 @@
+.userlist-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.userlist-search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.userlist-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.userlist-table th, .userlist-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.userlist-table tbody tr:hover {
+  background: #f9fafc;
+  cursor: pointer;
+}
+
+.userlist-empty {
+  text-align: center;
+  color: #777;
+  padding: 15px;
+}

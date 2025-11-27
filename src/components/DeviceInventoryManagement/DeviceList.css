@@ -1,0 +1,86 @@
+.device-page {
+  padding: 30px;
+  font-family: "Inter", sans-serif;
+  background: #f6f7fb;
+  min-height: 100vh;
+}
+
+.device-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.device-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+.device-search {
+  width: 380px;
+  padding: 10px 14px;
+  border: 1px solid #cfd2da;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.device-search:focus {
+  border-color: #4c8bf5;
+  box-shadow: 0 0 0 2px rgba(76, 139, 245, 0.2);
+}
+
+/* Table wrapper */
+.device-table-wrapper {
+  overflow: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.device-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.device-table th {
+  text-align: left;
+  padding: 12px 10px;
+  background: #f0f1f5;
+  font-size: 14px;
+  color: #444;
+  font-weight: 600;
+}
+
+.device-table td {
+  padding: 12px 10px;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+}
+
+.device-table tr:hover {
+  background: #f9fafc;
+}
+
+/* Software count chip */
+.soft-chip {
+  background: #eaf2ff;
+  color: #1a61d1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* No data row */
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-size: 15px;
+}
