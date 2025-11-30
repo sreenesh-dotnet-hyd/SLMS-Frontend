@@ -23,15 +23,17 @@ export default function UsersList({ onSelectUser }) {
 
   return (
     <div className="userlist-container">
-      <h2>Users</h2>
-      <input
-        type="text"
-        placeholder="Search by User ID, Name, Department..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="userlist-search"
-      />
-
+      <div className="userlist-header">
+        <h2>Users</h2>
+        <input
+          type="text"
+          placeholder="Search by User ID, Name, Department..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="userlist-search"
+        />
+      </div>
+      <div className="table-wrapper">
       <table className="userlist-table">
         <thead>
           <tr>
@@ -57,6 +59,7 @@ export default function UsersList({ onSelectUser }) {
           )}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

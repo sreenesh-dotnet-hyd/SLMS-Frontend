@@ -107,20 +107,22 @@ export default function SoftwareDetails({ softwareId = 1 }) {
             {/* ================== HEADER ================== */}
             <header className="details-header">
                 <h2>{details.productName}</h2>
-                <p className="subtitle">{details.vendor} • {details.category}</p>
+                <div className="details-sub-header">
+                    <p className="subtitle">{details.vendor} • {details.category}</p>
                 <span className={`status-pill ${details.status.toLowerCase()}`}>{details.status}</span>
+                </div>
             </header>
 
             {/* ================== OVERVIEW CARD ================== */}
-            <div className="info-card">
+            {/* <div className="info-card">
                 <h3>Product Overview</h3>
                 <p>{details.description}</p>
                 <p><strong>SKU:</strong> {details.sku}</p>
                 <p><strong>Created At:</strong> {new Date(details.createdAt).toLocaleDateString()}</p>
-            </div>
+            </div> */}
 
             {/* ================== LICENSE SECTION ================== */}
-            <section className="section-block">
+            <section className="section-block" >
                 <h3>Licenses</h3>
 
                 <div className="stats-row">

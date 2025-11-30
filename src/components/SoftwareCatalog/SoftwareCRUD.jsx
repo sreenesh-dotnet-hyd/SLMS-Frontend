@@ -18,13 +18,14 @@ export default function SoftwareCRUD() {
 
   return (
     <div className="crud-container">
-      <h2>Software Management</h2>
-      <nav className="crud-nav">
-        <button onClick={() => setActiveForm("add")} className={activeForm === "add" ? "active" : ""}>Add</button>
-        <button onClick={() => setActiveForm("update")} className={activeForm === "update" ? "active" : ""}>Update</button>
-        <button onClick={() => setActiveForm("delete")} className={activeForm === "delete" ? "active" : ""}>Delete</button>
-      </nav>
-
+      <div className="crud-header">
+        <h2>Software Management</h2>
+        <nav className="crud-nav">
+          <button onClick={() => setActiveForm("add")} className={activeForm === "add" ? "active" : ""}>Add</button>
+          <button onClick={() => setActiveForm("update")} className={activeForm === "update" ? "active" : ""}>Update</button>
+          <button onClick={() => setActiveForm("delete")} className={activeForm === "delete" ? "active" : ""}>Delete</button>
+        </nav>
+      </div>
       {activeForm === "add" && (
         <div className="form">
           <h3>Add Software</h3>
@@ -36,7 +37,10 @@ export default function SoftwareCRUD() {
             <option>Active</option>
             <option>Retired</option>
           </select>
-          <button onClick={() => handleSubmit("Add")}>Add</button>
+          <div className="form-btns">
+            <button onClick={() => handleSubmit("Add")}>Add</button>
+            <button onClick={() => { }}>Clear</button>
+          </div>
         </div>
       )}
 
@@ -51,7 +55,10 @@ export default function SoftwareCRUD() {
             <option>Active</option>
             <option>Retired</option>
           </select>
-          <button onClick={() => handleSubmit("Update")}>Update</button>
+          <div className="form-btns">
+            <button onClick={() => handleSubmit("Update")}>Update</button>
+            <button onClick={() => { }}>Clear</button>
+          </div>
         </div>
       )}
 
@@ -59,7 +66,9 @@ export default function SoftwareCRUD() {
         <div className="form">
           <h3>Delete Software</h3>
           <input type="text" name="sku" placeholder="Enter SKU to delete" value={formData.sku} onChange={handleChange} />
+           <div className="form-btns">
           <button onClick={() => handleSubmit("Delete")}>Delete</button>
+          </div>
         </div>
       )}
     </div>

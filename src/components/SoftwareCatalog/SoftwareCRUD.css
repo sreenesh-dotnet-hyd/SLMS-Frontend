@@ -1,11 +1,20 @@
 .crud-container {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 30px;
+  padding-top: 10px;
+  background-color:  #f1f1f1;
+  border-radius: 16px;
+  width: 60rem;
+  color: red;
+  margin: 0;
+  margin-left: 2.8rem;
+    font-family: "Inter", sans-serif;
+}
+
+.crud-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
 }
 
 .crud-container h2 {

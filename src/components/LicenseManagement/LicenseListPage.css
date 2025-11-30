@@ -1,0 +1,123 @@
+.page-container {
+    padding: 30px;
+    padding-top: 20rem;
+  font-family: "Inter", sans-serif;
+  background-color: #f1f1f1;
+
+  margin-left: 1.2rem;
+  transform: scale(0.94);
+  border-radius: 20px;
+
+}
+
+/* Header */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-row .title {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Search */
+.search-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+}
+
+.search-input {
+  padding: 8px 12px 8px 32px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background: #1976d2;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #145aa6;
+}
+
+/* Card */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 10px;
+    border: 1px solid #e5e5e5;
+  font-weight: 600;
+   background: #f3f3f3;
+}
+
+.table td {
+  padding: 10px;
+   border: 1px solid #e5e5e5;
+}
+
+.table tr:hover {
+  background: #fafafa;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* No data */
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+/* Icon button */
+.icon-btn {
+  font-size: 18px;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+}

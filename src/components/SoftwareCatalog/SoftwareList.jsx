@@ -66,7 +66,7 @@ export default function SoftwareList({ data = sampleData }) {
   return (
     <section className="catalog-root">
       <header className="catalog-header">
-        <h2>Software Catalog</h2>
+        <h2>Software List</h2>
         <div className="controls">
           <input
             className="search"

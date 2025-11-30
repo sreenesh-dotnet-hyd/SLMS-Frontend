@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./DeviceList.css";
+import { Link } from "react-router-dom";
 
 export default function DeviceList() {
   const [devices, setDevices] = useState([]);
@@ -110,7 +111,7 @@ const dummyData = [
   return (
     <div className="device-page">
       <div className="device-header">
-        <h1>Device Inventory</h1>
+        <h1>Device List</h1>
 
         <input
           className="device-search"
@@ -131,6 +132,7 @@ const dummyData = [
               <th>Location</th>
               <th>Last Seen</th>
               <th>Installed Software</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -148,6 +150,15 @@ const dummyData = [
                     {d.installedSoftware?.length || 0} apps
                   </span>
                 </td>
+                 <td className="text-right">
+                    <Link
+                      to={`/devices/${d.deviceId}/installed`}
+                      className="icon-btn"
+                      title="Open"
+                    >
+                      ↗
+                    </Link>
+                  </td>
               </tr>
             ))}
 

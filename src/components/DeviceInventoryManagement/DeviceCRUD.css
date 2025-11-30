@@ -1,17 +1,29 @@
-.crud-container {
-  background: #fff;
-  padding: 24px;
+.device-crud-container {
+
+  padding: 30px;
+  padding-top: 10px;
+  background-color:  #f1f1f1;
   border-radius: 16px;
-  max-width: 700px;
-  margin: 20px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 60rem;
+  color: red;
+  margin: 0;
+  margin-left: 2.8rem;
+    font-family: "Inter", sans-serif;
 }
 
-.crud-container h2 {
+.crud-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.device-crud-container h2 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: 600;
+    font-size: 1.6rem;
+  font-weight: 530;
+  color: #222;
 }
 
 .crud-nav {
@@ -23,17 +35,17 @@
 
 .crud-nav button {
   padding: 10px 18px;
+  width: 6rem;
   border: none;
-  background: #e7e7e7;
-  border-radius: 8px;
+  background-color: #7c90a8;
+  border-radius: 16px;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s ease-in-out;
 }
 
-.crud-nav button.active {
-  background: #4a90e2;
-  color: #fff;
+.crud-header .crud-nav .active {
+  background-color: #7c90a8;
   font-weight: 600;
 }
 
@@ -45,10 +57,11 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: #fafafa;
+  background: white;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid #eee;
+
 }
 
 .form h3 {
@@ -59,10 +72,11 @@
 
 .form input,
 .form select {
+
   padding: 10px 12px;
   font-size: 14px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  background-color: #f0f1f5;
   outline: none;
   transition: border-color 0.2s ease-in-out;
 }
@@ -72,13 +86,14 @@
   border-color: #4a90e2;
 }
 
-.form button {
+.form .form-btns button {
+  width: 20%;
   padding: 12px;
-  background: #4a90e2;
+  background-color: #7c90a8;
   color: white;
   border: none;
   font-size: 15px;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   margin-top: 4px;
   transition: background 0.2s ease-in-out;
@@ -86,4 +101,10 @@
 
 .form button:hover {
   background: #3a7bd5;
+}
+
+.form-btns{
+  display: flex;
+  flex-direction: row;
+  gap:0.4rem;
 }

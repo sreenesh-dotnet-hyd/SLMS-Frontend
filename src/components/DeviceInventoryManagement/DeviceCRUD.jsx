@@ -1,6 +1,6 @@
 // File: DevicesCRUD.jsx
 import React, { useState } from "react";
-import "./DevicesCRUD.css";
+import "./DeviceCRUD.css";
 
 export default function DevicesCRUD() {
   const [activeForm, setActiveForm] = useState("add");
@@ -33,31 +33,33 @@ export default function DevicesCRUD() {
   };
 
   return (
-    <div className="crud-container">
-      <h2>Device Management</h2>
+    <div className="device-crud-container">
+      <div className="crud-header">
+        <h2>Device Management</h2>
 
-      <nav className="crud-nav">
-        <button
-          onClick={() => setActiveForm("add")}
-          className={activeForm === "add" ? "active" : ""}
-        >
-          Add
-        </button>
+        <nav className="crud-nav">
+          <button
+            onClick={() => setActiveForm("add")}
+            className={activeForm === "add" ? "active" : ""}
+          >
+            Add
+          </button>
 
-        <button
-          onClick={() => setActiveForm("update")}
-          className={activeForm === "update" ? "active" : ""}
-        >
-          Update
-        </button>
+          <button
+            onClick={() => setActiveForm("update")}
+            className={activeForm === "update" ? "active" : ""}
+          >
+            Update
+          </button>
 
-        <button
-          onClick={() => setActiveForm("delete")}
-          className={activeForm === "delete" ? "active" : ""}
-        >
-          Delete
-        </button>
-      </nav>
+          <button
+            onClick={() => setActiveForm("delete")}
+            className={activeForm === "delete" ? "active" : ""}
+          >
+            Delete
+          </button>
+        </nav>
+      </div>
 
       {/* ADD DEVICE */}
       {activeForm === "add" && (
@@ -113,7 +115,10 @@ export default function DevicesCRUD() {
             <option>Under Repair</option>
           </select>
 
-          <button onClick={() => handleSubmit("Add")}>Add</button>
+          <div className="form-btns">
+            <button onClick={() => handleSubmit("Add")}>Add</button>
+            <button onClick={() => { }}>Clear</button>
+          </div>
         </div>
       )}
 
@@ -171,7 +176,11 @@ export default function DevicesCRUD() {
             <option>Under Repair</option>
           </select>
 
-          <button onClick={() => handleSubmit("Update")}>Update</button>
+          <div className="form-btns">
+            <button onClick={() => handleSubmit("Update")}>Update</button>
+            <button onClick={() => { }}>Clear</button>
+          </div>
+
         </div>
       )}
 
@@ -188,7 +197,9 @@ export default function DevicesCRUD() {
             onChange={handleChange}
           />
 
+   <div className="form-btns">
           <button onClick={() => handleSubmit("Delete")}>Delete</button>
+          </div>
         </div>
       )}
     </div>

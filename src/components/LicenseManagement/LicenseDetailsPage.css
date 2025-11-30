@@ -1,0 +1,176 @@
+/* Layout */
+.license-page {
+  padding: 30px;
+  font-family: "Inter", sans-serif;
+  background-color: #f1f1f1;
+    border-radius: 20px;
+  min-height: fit-content;
+  margin-left: 1.2rem;
+  transform: scale(0.94);
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+
+}
+.header-actions button{
+  padding: 10px 18px;
+  width: 6rem;
+  border: none;
+  background-color: rgb(78, 78, 255);
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  color: white;
+}
+/* Grid Systems */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+}
+
+.section-title {
+  margin-bottom: 12px;
+}
+
+/* Text */
+.label {
+  font-size: 13px;
+  color: #777;
+}
+
+.value {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.value.small {
+  margin-top: 8px;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+/* Buttons */
+.btn-outline {
+  padding: 6px 12px;
+  border: 1px solid #555;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-text {
+  border: none;
+  background: none;
+  color: #0077cc;
+  cursor: pointer;
+}
+
+.btn-small {
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+/* Chips */
+.chip {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #eee;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.chip.warning {
+  background: #ffecb3;
+  color: #b36b00;
+}
+
+.chip.error {
+  background: #ffcccc;
+  color: #b30000;
+}
+
+/* Usage Bar */
+.usage-bar {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.usage-bar-fill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 5px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-top: 18px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.device-table-wrapper {
+  overflow: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+/* Tables */
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.simple-table th{
+  text-align: left;
+  padding: 12px 10px;
+  background: #f0f1f5;
+  font-size: 14px;
+
+  font-weight: 600;
+    border: 1px solid #ddd;
+}
+
+.simple-table th,
+.simple-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.no-data {
+  text-align: center;
+  padding: 15px;
+}
+
+.mt {
+  margin-top: 20px;
+}

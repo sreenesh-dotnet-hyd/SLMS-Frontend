@@ -1,15 +1,62 @@
 .isl-container {
-  background: #fff;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  margin: 20px auto;
-  max-width: 900px;
+  padding: 30px;
+  font-family: "Inter", sans-serif;
+  background-color: #f1f1f1;
+    border-radius: 20px;
+  min-height: fit-content;
+  margin-left: 1.2rem;
+  transform: scale(0.94);
+}
+
+.isl-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.header-btns{
+  display: flex;
+    display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.header-btns button {
+      flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    font-weight: 600;
+    width: 8rem;
+}
+
+.isl-expand-btn{
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    font-weight: 600;
+    width: 8rem;
+}
+
+.isl-table-wrapper{
+  overflow: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .isl-title {
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 18px;
 }
 
@@ -19,13 +66,13 @@
   background: white;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid #eee;
+     border: 1px solid #ddd;
 }
 
 .isl-table th,
 .isl-table td {
   padding: 12px;
-  border-bottom: 1px solid #eee;
+  border: 1px solid #ddd;
   text-align: left;
   font-size: 14px;
 }
