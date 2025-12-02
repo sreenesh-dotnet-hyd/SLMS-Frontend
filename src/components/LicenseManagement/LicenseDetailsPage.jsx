@@ -364,11 +364,215 @@ export default function LicenseDetailsPage({ role }) {
   const [license, setLicense] = useState(null);
   const [entitlements, setEntitlements] = useState([]);
   const [installations, setInstallations] = useState([]);
+  const [devices, setDevices] = useState([]);
+  const token = localStorage.getItem("token");
+  const [historyMap, setHistoryMap] = useState({});
+
+
+  const loadAllHistory = async () => {
+    const results = await Promise.all(
+      installations.map(async (item) => {
+        const res = await fetch(
+          `https://localhost:7153/inventory/history/${item.installedSoftwareId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            }
+          }
+        );
+
+        const raw = await res.json();
+
+        // Extract actual history array
+        const historyArray = raw[item.installedSoftwareId] || [];
+
+        return { id: item.installedSoftwareId, history: [historyArray] };
+      })
+    );
+
+    // Convert list → dictionary
+    const historyDict = {};
+    results.forEach(r => {
+      historyDict[r.id] = r.history;
+    });
+
+    setHistoryMap(historyDict);
+
+    console.log("History Map:", historyDict);
+
+    // console.log((historyMap["2"]?.find(h => h.action === "uninstall")
+    //   ?.timestamp
+    //   ? dayjs(
+    //     historyMap[i.installedSoftwareId]
+    //       .find(h => h.action === "uninstall")
+    //       .timestamp
+    //   ).format("YYYY-MM-DD")
+    //   : "-"))
+  };
+
+
+
+  async function loadInstallations() {
+    try {
+
+      const res = await fetch("https://localhost:7153/inventory/installations/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  // <-- JWT goes here
+        }
+      });
+      const data = await res.json();
+      const filtered = data.filter(inst => Number(inst.licenseId) === Number(id));
+
+      console.log("Filtered installations:", filtered);
+
+
+      //removes redundant installations with same license id and same installationsoftwareId
+      const unique = [
+        ...new Map(filtered.map(item => [item.installedSoftwareId, item])).values()
+      ];
+
+
+
+      const updatedInstallations = unique.map(ent => {
+        console.log("device data:", devices);
+
+        const device = devices.find(d => Number(d.id) === Number(ent.deviceId));
+
+        if (device) {
+          return {
+            ...ent,
+            deviceId: device.deviceId,
+            // replace numeric key with readable ID
+          };
+        }
+
+        return ent; // if device not found, keep original
+      });
+
+      console.log("updated Installations:", updatedInstallations);
+
+      setInstallations(updatedInstallations);
+
+    } catch (err) {
+      console.error("Failed to fetch devices", err);
+    }
+
+  }
+
+
+
+  async function loadDevices() {
+    try {
+
+
+      const res = await fetch("https://localhost:7153/inventory/devices", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  // <-- JWT goes here
+        }
+      });
+      const data = await res.json();
+      setDevices(data);
+      console.log("devices data:", data);
+    } catch (err) {
+      console.error("Failed to fetch devices", err);
+    }
+
+  }
+
+
+  const loadLicenseData = async () => {
+    try {
+      const res = await fetch(`https://localhost:7153/inventory/licenses/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  // <-- JWT goes here
+        }
+      });
+      const data = await res.json();
+      setLicense(data);
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    getLicenseById(id).then(setLicense);
-    getLicenseEntitlements(id).then(setEntitlements);
-    getLicenseInstallations(id).then(setInstallations);
+    loadEntitlementsData();
+  }, [license, devices])
+
+  useEffect(() => {
+    loadInstallations();
+  }, [id, devices])
+
+  useEffect(() => {
+    loadAllHistory();
+  }, [installations])
+
+  const loadEntitlementsData = async () => {
+
+    try {
+      const res = await fetch("https://localhost:7153/inventory/entitlements/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  // <-- JWT goes here
+        }
+      })
+
+
+      var data = await res.json();
+
+      data = data.filter(item => Number(item.licenseId) === Number(license.licenseId));
+
+
+      console.log(devices);
+      const updatedEntitlements = data.map(ent => {
+        const device = devices.find(d => Number(d.id) === Number(ent.deviceId));
+
+        if (device) {
+          return {
+            ...ent,
+            deviceId: device.deviceId,
+            userId: device.ownerUserId
+            // replace numeric key with readable ID
+          };
+        }
+
+        return ent; // if device not found, keep original
+      });
+
+      console.log("Updated entitlements:", updatedEntitlements);
+
+      setEntitlements(updatedEntitlements);
+
+
+
+      // setEntitlements(data);
+
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+
+    const load = async () => {
+      await loadLicenseData();
+      await loadDevices();
+
+      // getLicenseInstallations(id).then(setInstallations);
+    };
+
+    load();
+
   }, [id]);
 
   const usage = useMemo(() => {
@@ -385,6 +589,8 @@ export default function LicenseDetailsPage({ role }) {
 
   const lowCapacityAlert =
     usage.total > 0 && usage.available <= Math.max(1, Math.floor(usage.total * 0.1));
+
+
 
   return (
     <div className="license-page">
@@ -504,7 +710,7 @@ export default function LicenseDetailsPage({ role }) {
               ></div>
             </div>
 
-            <p className="value small">Available seats: {usage.available}</p>
+            <p className="value small">Available seats: {license.available}</p>
 
             <div className="quick-actions">
               <p className="label">Quick Actions</p>
@@ -594,8 +800,8 @@ export default function LicenseDetailsPage({ role }) {
 
               {entitlements.map(e => (
                 <tr key={e.id}>
-                  <td>{e.user?.displayName ?? "-"}</td>
-                  <td>{e.device?.hostname ?? "-"}</td>
+                  <td>{e.userId ?? "-"}</td>
+                  <td>{e.deviceId ?? "-"}</td>
                   <td>{dayjs(e.assignedAt).format("YYYY-MM-DD")}</td>
                   <td>{e.expiresAt ? dayjs(e.expiresAt).format("YYYY-MM-DD") : "-"}</td>
                 </tr>
@@ -616,6 +822,7 @@ export default function LicenseDetailsPage({ role }) {
               <th>Product</th>
               <th>Version</th>
               <th>Installed On</th>
+              <th>Uninstalled On</th>
             </tr>
           </thead>
 
@@ -624,14 +831,32 @@ export default function LicenseDetailsPage({ role }) {
               <tr><td colSpan={4} className="no-data">No installations.</td></tr>
             )}
 
-            {installations.map(i => (
-              <tr key={i.id}>
-                <td>{i.device?.hostname ?? "-"}</td>
-                <td>{i.productName}</td>
-                <td>{i.version}</td>
-                <td>{dayjs(i.installDate).format("YYYY-MM-DD")}</td>
-              </tr>
-            ))}
+            {installations.map(i => {
+              // lookup
+
+              return (
+                <tr key={i.id}>
+                  <td>{i.deviceId ?? "-"}</td>
+                  <td>{i.productName}</td>
+                  <td>{i.version}</td>
+                  <td>{dayjs(i.installDate).format("YYYY-MM-DD HH:mm")}</td>
+
+                  <td>
+                    {
+                      historyMap[i.installedSoftwareId]
+                        ?.find(h => h.action === "uninstall")
+                        ?.timestamp
+                        ? dayjs(
+                          historyMap[i.installedSoftwareId]
+                            .find(h => h.action === "uninstall")
+                            .timestamp
+                        ).format("YYYY-MM-DD HH:mm")
+                        : "-"
+                    }
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

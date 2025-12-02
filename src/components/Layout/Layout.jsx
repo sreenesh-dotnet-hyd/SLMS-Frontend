@@ -1,11 +1,24 @@
 import { Outlet, NavLink, useLocation, useParams, matchPath } from 'react-router-dom';
 import { Monitor, AppWindow, Users, ShieldCheck, Clock, Ticket, Cursor, SignOut, ChartBar } from "phosphor-react";
 import './Layout.css'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Layout() {
   const location = useLocation();
   const { deviceId } = useParams();
+  const navigate = useNavigate();
+
+const handleSignOut = ()=>{
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenExpiry");
+
+    console.log("signing out!");
+    navigate("/");
+}
+
   // Map paths to readable component names
   // const componentNames = {
   //   '/device-list': 'Device Inventory',
@@ -75,6 +88,8 @@ export default function Layout() {
 
   const currentComponent = active ? active.name : "Unknown Page";
 
+
+
   const linkStyle = ({ isActive }) => ({
     display: 'flex',
     flexDirection: 'row',
@@ -94,7 +109,7 @@ export default function Layout() {
 
   });
 
-  const SignOutlinkStyle = ({ isActive }) => ({
+  const SignOutlinkStyle = {
     position: 'absolute',
     bottom: '1rem',
     display: 'flex',
@@ -104,23 +119,24 @@ export default function Layout() {
     width: '10rem',
     margin: '8px 0',
     padding: '8px',
-    backgroundColor: isActive ? '#f1f1f1' : '',
+    backgroundColor:'white',
     borderRadius: '20px',
+    border:'none',
     textDecoration: 'none',
     letterSpacing: '-0px',
-    color: isActive ? 'rgb(26,27,27)' : 'grey',
-    fontWeight: isActive ? '750' : '550',
+    color: 'grey',
+    fontWeight:  '550',
     fontFamily: 'Inter, Arial, sans-serif',
     cursor: 'pointer'
 
-  });
+  };
 
   return (
     <div style={{ display: 'flex', height: '100vh', width: '220px', borderRight: '1px solid rgba(219, 219, 219, 1)', }}>
       {/* Sidebar */}
       <div style={{ display: 'flex', flexDirection: 'column', marginTop: '1.24rem', alignItems: 'center' }}>
         <div className='encora-logo'>
-          encora
+          icense
         </div>
         <div style={{ marginTop: '4rem', background: '#ffffff', padding: '1.2rem', fontFamily: 'Inter, Arial, sans-serif' }}>
           <NavLink to="/app/devices" end={false} style={linkStyle}>
@@ -156,12 +172,12 @@ export default function Layout() {
             <span>
               Installation Tracking & History
             </span></NavLink> */}
-          <NavLink to="/" style={SignOutlinkStyle}>
+          <button onClick={()=>handleSignOut()} style={SignOutlinkStyle}>
             <SignOut size={24} />
             <span>
               Sign Out
             </span>
-          </NavLink>
+          </button>
 
          
 
@@ -194,7 +210,7 @@ export default function Layout() {
                 {currentComponent}
               </div>
               <div className='nav-links'>
-                <NavLink to="/app/software-catalog/software-list" className='nav-link'>Software List</NavLink>
+                <NavLink to="/app/software-catalog" className='nav-link'>Software List</NavLink>
                 <NavLink to="/app/software-catalog/software-management" className='nav-link'>Software Management</NavLink>
                 <NavLink to="/app/software-catalog/software-details" className='nav-link'>Software Details</NavLink>
               </div>

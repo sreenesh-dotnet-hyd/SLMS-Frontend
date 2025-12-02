@@ -11,13 +11,24 @@ export default function DeviceList() {
   }, []);
 
   async function loadDevices() {
-    // try {
-    //   const res = await fetch("http://localhost:5000/api/devices");
-    //   const data = await res.json();
-    //   setDevices(data);
-    // } catch (err) {
-    //   console.error("Failed to fetch devices", err);
-    // }
+    try {
+      const token = localStorage.getItem("token");
+  
+      const res = await fetch("https://localhost:7153/inventory/devices",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`  // <-- JWT goes here
+      }
+    });
+      const data = await res.json();
+      setDevices(data);
+      console.log(data);
+    } catch (err) {
+      console.error("Failed to fetch devices", err);
+    }
+
+  }
 
 
 const dummyData = [
@@ -96,9 +107,9 @@ const dummyData = [
         }
       ];
 
-      setDevices(dummyData);
+   
 
-  }
+  
 
   const filtered = devices.filter(
     (d) =>
@@ -131,7 +142,7 @@ const dummyData = [
               <th>Department</th>
               <th>Location</th>
               <th>Last Seen</th>
-              <th>Installed Software</th>
+              {/* <th>Installed Software</th> */}
               <th></th>
             </tr>
           </thead>
@@ -141,18 +152,18 @@ const dummyData = [
               <tr key={d.id}>
                 <td>{d.deviceId}</td>
                 <td>{d.hostname}</td>
-                <td>{d.ownerUser?.displayName || "-"}</td>
+                <td>{d.ownerUserId || "-"}</td>
                 <td>{d.department}</td>
                 <td>{d.location}</td>
                 <td>{new Date(d.lastSeen).toLocaleString()}</td>
-                <td>
+                {/* <td>
                   <span className="soft-chip">
                     {d.installedSoftware?.length || 0} apps
                   </span>
-                </td>
+                </td> */}
                  <td className="text-right">
                     <Link
-                      to={`/devices/${d.deviceId}/installed`}
+                      to={`/app/devices/${d.id}/installed`}
                       className="icon-btn"
                       title="Open"
                     >

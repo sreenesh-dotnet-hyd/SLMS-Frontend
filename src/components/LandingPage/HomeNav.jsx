@@ -10,7 +10,7 @@ export default function HomeNav() {
     return (<div className="home-nav-container">
         <div className="sub-1">
             <div className="logo">
-                encora
+                icense
             </div>
             <div className="features">
                 <span>

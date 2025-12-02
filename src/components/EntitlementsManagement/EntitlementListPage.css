@@ -1,6 +1,11 @@
 .page-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+padding:  4rem 30px;
+  font-family: "Inter", sans-serif;
+  background-color: #f1f1f1;
+
+  margin-left: 1.2rem;
+  transform: scale(0.94);
+  border-radius: 20px;
 }
 
 /* HEADER */

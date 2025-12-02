@@ -108,3 +108,25 @@
   flex-direction: row;
   gap:0.4rem;
 }
+
+.status-device-message {
+  margin: 10px 0;
+  padding: 1.2rem 3rem;
+  background-color: white;
+  border-radius:12px;
+
+  font-weight: bold;
+}
+
+
+.input-error {
+  border: 2px solid red !important;
+  background: #ffe6e6;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}

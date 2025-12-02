@@ -2,16 +2,31 @@ import React, { useEffect, useState } from "react";
 import "./UsersList.css";
 
 export default function UsersList({ onSelectUser }) {
-  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const token = localStorage.getItem('token');
+  const [users, setUsers] = useState([]);
+
+  const loadData = async ()=>{
+    const res = await fetch("https://localhost:7153/inventory/users",
+       {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            }
+          }
+    );
+    const data= await res.json();
+    setUsers(data);
+  }
 
   useEffect(() => {
     // Dummy data
-    setUsers([
-      { id: 1, userId: "EMP1001", displayName: "Alice Johnson", department: "Finance" },
-      { id: 2, userId: "EMP1002", displayName: "Bob Smith", department: "IT" },
-      { id: 3, userId: "EMP1003", displayName: "Sree Nesh", department: "Engineering" },
-    ]);
+    // setUsers([
+    //   { id: 1, userId: "EMP1001", displayName: "Alice Johnson", department: "Finance" },
+    //   { id: 2, userId: "EMP1002", displayName: "Bob Smith", department: "IT" },
+    //   { id: 3, userId: "EMP1003", displayName: "Sree Nesh", department: "Engineering" },
+    // ]);
+    loadData();
   }, []);
 
   const filtered = users.filter(
@@ -40,6 +55,7 @@ export default function UsersList({ onSelectUser }) {
             <th>User ID</th>
             <th>Name</th>
             <th>Department</th>
+            <th>Location</th>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +64,7 @@ export default function UsersList({ onSelectUser }) {
               <td>{u.userId}</td>
               <td>{u.displayName}</td>
               <td>{u.department}</td>
+              <td>{u.location}</td>
             </tr>
           ))}
           {filtered.length === 0 && (

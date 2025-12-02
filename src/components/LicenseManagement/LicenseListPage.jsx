@@ -144,9 +144,24 @@ import "./LicenseListPage.css";
 export default function LicensesListPage({ role }) {
   const [licenses, setLicenses] = useState([]);
   const [q, setQ] = useState("");
+  const token = localStorage.getItem("token")
+
+  const loaddata=async ()=>{
+     const res = await fetch("https://localhost:7153/inventory/licenses/",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`  // <-- JWT goes here
+      }
+    });
+      const data = await res.json();
+      console.log(data);
+      setLicenses(data);
+  }
 
   useEffect(() => {
-    getLicenses().then(setLicenses).catch(console.error);
+    // getLicenses().then(setLicenses).catch(console.error);
+    loaddata()
   }, []);
 
   const filtered = licenses.filter(l =>
@@ -156,7 +171,7 @@ export default function LicensesListPage({ role }) {
   );
 
   return (
-    <div className="page-container">
+    <div className="page-license-container">
 
       {/* Header */}
       <div className="header-row">
@@ -189,6 +204,7 @@ export default function LicensesListPage({ role }) {
           <table className="table">
             <thead>
               <tr>
+                <th>License Id</th>
                 <th>Product</th>
                 <th>Vendor</th>
                 <th>Type</th>
@@ -202,13 +218,14 @@ export default function LicensesListPage({ role }) {
             <tbody>
               {filtered.map(lic => (
                 <tr key={lic.id}>
+                  <td>{lic.licenseId}</td>
                   <td>{lic.productName}</td>
                   <td>{lic.vendor}</td>
                   <td>{lic.licenseType}</td>
                   <td>
                     <SeatUsageBar
                       total={lic.totalEntitlements}
-                      used={lic.entitlements?.length ?? 0}
+                      used={lic.assigned}
                     />
                   </td>
                   <td>
@@ -219,7 +236,7 @@ export default function LicensesListPage({ role }) {
                   </td>
                   <td className="text-right">
                     <Link
-                      to={`/licenses/${lic.id}`}
+                      to={`/app/licenses/${lic.licenseId}`}
                       className="icon-btn"
                       title="Open"
                     >

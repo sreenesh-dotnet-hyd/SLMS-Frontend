@@ -208,7 +208,7 @@ function App() {
             {/* Device Inventory routes */}
             <Route path="devices" element={<DeviceList />} />
             <Route path="devices/management" element={<DeviceCRUD />} />
-            <Route path="devices/:device-id/installed" element={<InstalledSoftwaresInADevice device={dummyDeviceInstalledSoftware} />} />
+            <Route path="devices/:deviceId/installed" element={<InstalledSoftwaresInADevice device={dummyDeviceInstalledSoftware} />} />
 
             {/* Software Catalog routes */}
             <Route path="software-catalog" element={<SoftwareList />} />

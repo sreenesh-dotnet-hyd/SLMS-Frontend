@@ -8,7 +8,7 @@ export function ExpiryStatusChip({ expiry }) {
   const days = date.diff(dayjs(), "day");
   let color = "default";
   let label = `Expires ${date.format("YYYY-MM-DD")}`;
-  if (days < 0) {
+  if (days <= 0) {
     color = "error";
     label = `Expired ${Math.abs(days)}d ago`;
   } else if (days <= 30) {

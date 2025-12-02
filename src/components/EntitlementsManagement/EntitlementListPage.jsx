@@ -144,17 +144,87 @@ import "./EntitlementListPage.css";
 export default function EntitlementListPage() {
   const [data, setData] = useState([]);
   const [status, setStatus] = useState("all");
-
+  const [entitlements, setEntitlements] = useState([]);
+  const [devices, setDevices] = useState([]);
   const location = useLocation();
   const licenseFilterFromNav = location.state?.licenseId ?? null;
-
-  const load = () => {
-    getEntitlements().then(setData);
-  };
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    load();
-  }, []);
+    loadDevices();
+  }, [])
+
+  useEffect(() => {
+    loadEntitlementsData();
+  }, [devices])
+
+
+  async function loadDevices() {
+    try {
+
+
+      const res = await fetch("https://localhost:7153/inventory/devices", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  // <-- JWT goes here
+        }
+      });
+      const data = await res.json();
+      setDevices(data);
+      console.log("devices data:", data);
+    } catch (err) {
+      console.error("Failed to fetch devices", err);
+    }
+
+  }
+
+
+  const loadEntitlementsData = async () => {
+
+    try {
+      const res = await fetch("https://localhost:7153/inventory/entitlements/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`  // <-- JWT goes here
+        }
+      })
+
+
+      var data = await res.json();
+
+
+      console.log(devices);
+      const updatedEntitlements = data.map(ent => {
+        const device = devices.find(d => Number(d.id) === Number(ent.deviceId));
+
+        if (device) {
+          return {
+            ...ent,
+            deviceId: device.deviceId,
+            userId: device.ownerUserId
+            // replace numeric key with readable ID
+          };
+        }
+
+        return ent; // if device not found, keep original
+      });
+
+      console.log("Updated entitlements:", updatedEntitlements);
+
+      setEntitlements(updatedEntitlements);
+      setData(updatedEntitlements);
+
+
+      // setEntitlements(data);
+
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+ 
 
   const filtered = data.filter(e => {
     if (licenseFilterFromNav && e.licenseId !== licenseFilterFromNav)
@@ -195,9 +265,7 @@ export default function EntitlementListPage() {
             <option value="expired">Expired</option>
           </select>
 
-          <Link to="/entitlements/assign" className="btn primary-btn">
-            Assign License
-          </Link>
+          
         </div>
       </div>
 
@@ -207,33 +275,26 @@ export default function EntitlementListPage() {
           <table className="table">
             <thead>
               <tr>
-                <th>License</th>
-                <th>User</th>
-                <th>Device</th>
+                <th>License Id</th>
+                <th>User Owner Id</th>
+                <th>Device Id</th>
                 <th>Assigned At</th>
                 <th>Expires</th>
-                <th></th>
+        
               </tr>
             </thead>
 
             <tbody>
               {filtered.map(e => (
                 <tr key={e.id}>
-                  <td>{e.license?.productName ?? "-"}</td>
-                  <td>{e.user?.displayName ?? "-"}</td>
-                  <td>{e.device?.hostname ?? "-"}</td>
+                  <td>{e.licenseId ?? "-"}</td>
+                  <td>{e.userId ?? "-"}</td>
+                  <td>{e.deviceId ?? "-"}</td>
                   <td>{dayjs(e.assignedAt).format("YYYY-MM-DD")}</td>
                   <td>
                     <ExpiryStatusChip expiry={e.expiresAt} />
                   </td>
-                  <td className="text-right">
-                    <button
-                      className="icon-btn delete-btn"
-                      onClick={() => handleDelete(e.id)}
-                    >
-                      🗑
-                    </button>
-                  </td>
+                 
                 </tr>
               ))}
 
