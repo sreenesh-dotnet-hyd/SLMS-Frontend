@@ -136,50 +136,74 @@
 // src/pages/licenses/LicensesListPage.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getLicenses } from "./Licenses";
 import SeatUsageBar from "./SeatUsageBar";
 import { ExpiryStatusChip } from "./StatusChip";
 import "./LicenseListPage.css";
 
+const sampleFallback = [
+  {
+    id: 1,
+    licenseId: "LIC-001",
+    productName: "Visual Studio",
+    vendor: "Microsoft",
+    licenseType: "Per User",
+    totalEntitlements: 100,
+    assigned: 45,
+    expiryDate: "2025-12-01T00:00:00Z",
+    cost: 200,
+    currency: "USD"
+  }
+];
+
 export default function LicensesListPage({ role }) {
   const [licenses, setLicenses] = useState([]);
   const [q, setQ] = useState("");
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const loaddata=async ()=>{
-     const res = await fetch("https://localhost:7153/inventory/licenses/",{
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`  // <-- JWT goes here
+  const loaddata = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/inventory/licenses/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        setLicenses(sampleFallback);
+        return;
       }
-    });
+      else{
+        console.log(res);
+      }
+
       const data = await res.json();
-      console.log(data);
       setLicenses(data);
-  }
+    } catch (err) {
+      console.log(err);
+      setLicenses(sampleFallback);
+    }
+  };
 
   useEffect(() => {
-    // getLicenses().then(setLicenses).catch(console.error);
-    loaddata()
+    loaddata();
   }, []);
 
   const filtered = licenses.filter(l =>
-    `${l.productName} ${l.vendor} ${l.sku}`
+    `${l.productName} ${l.vendor} ${l.sku || ""}`
       .toLowerCase()
       .includes(q.toLowerCase())
   );
 
   return (
     <div className="page-license-container">
-
-      {/* Header */}
       <div className="header-row">
         <h2 className="title">Licenses</h2>
 
         <div className="actions">
           <div className="search-wrapper">
-        
             <input
               type="text"
               className="search-input"
@@ -191,16 +215,14 @@ export default function LicensesListPage({ role }) {
 
           {role === "ITAdmin" && (
             <Link className="btn primary-btn" to="/app/licenses/new">
-               Add License
+              Add License
             </Link>
           )}
         </div>
       </div>
 
-      {/* Card */}
       <div className="card">
         <div className="card-body">
-
           <table className="table">
             <thead>
               <tr>
@@ -255,10 +277,8 @@ export default function LicensesListPage({ role }) {
               )}
             </tbody>
           </table>
-
         </div>
       </div>
     </div>
   );
 }
-

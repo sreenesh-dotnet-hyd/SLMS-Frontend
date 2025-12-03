@@ -207,25 +207,27 @@
 // }
 
 
-
+// File: LicenseFormPage.jsx
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import { createLicense, getLicenseById, updateLicense } from "../api_data/licenses";
-import "./license-form.css"; // <-- CSS file
-
-const licenseTypes = ["PerUser", "PerDevice", "Concurrent", "Subscription"];
+import "./license-form.css";
 
 export default function LicenseFormPage() {
   const { id } = useParams();
   const isEdit = !!id;
-  const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL; 
+  const token = localStorage.getItem("token");
+
+  const [statusMsg, setStatusMsg] = useState("");
+
   const [form, setForm] = useState({
     productName: "",
     vendor: "",
     sku: "",
-    licenseType: "PerUser",
+    licenseType: 0,
     totalEntitlements: 0,
+    assigned: 0,
     cost: 0,
     currency: "USD",
     purchaseDate: "",
@@ -235,29 +237,40 @@ export default function LicenseFormPage() {
 
   useEffect(() => {
     if (isEdit) {
-      getLicenseById(id).then(l => {
-        setForm({
-          productName: l.productName ?? "",
-          vendor: l.vendor ?? "",
-          sku: l.sku ?? "",
-          licenseType: l.licenseType ?? "PerUser",
-          totalEntitlements: l.totalEntitlements ?? 0,
-          cost: l.cost ?? 0,
-          currency: l.currency ?? "USD",
-          purchaseDate: l.purchaseDate
-            ? dayjs(l.purchaseDate).format("YYYY-MM-DD")
-            : "",
-          expiryDate: l.expiryDate
-            ? dayjs(l.expiryDate).format("YYYY-MM-DD")
-            : "",
-          notes: l.notes ?? ""
+      fetch(`${BASE_URL}/inventory/licenses/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(r => r.json())
+        .then(l => {
+          setForm({
+            productName: l.productName ?? "",
+            vendor: l.vendor ?? "",
+            sku: (l.sku ?? ""),
+            licenseType: Number(l.licenseType) ?? 0,
+            totalEntitlements: l.totalEntitlements ?? 0,
+            assigned: l.assigned ?? 0,
+            cost: l.cost ?? 0,
+            currency: l.currency ?? "USD",
+            purchaseDate: l.purchaseDate
+              ? dayjs(l.purchaseDate).format("YYYY-MM-DD")
+              : "",
+            expiryDate: l.expiryDate
+              ? dayjs(l.expiryDate).format("YYYY-MM-DD")
+              : "",
+            notes: l.notes ?? ""
+          });
         });
-      });
     }
-  }, [id, isEdit]);
+  }, [id, isEdit, token, BASE_URL]);
 
   const handleChange = e => {
     const { name, value } = e.target;
+
+    if (name === "licenseType") {
+      setForm(prev => ({ ...prev, licenseType: Number(value) }));
+      return;
+    }
+
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
@@ -265,20 +278,46 @@ export default function LicenseFormPage() {
     e.preventDefault();
 
     const payload = {
-      ...form,
+      productName: form.productName,
+      vendor: form.vendor,
+      sku: form.sku,
+      licenseType: form.licenseType,
       totalEntitlements: Number(form.totalEntitlements),
+      assigned: Number(form.assigned) || 0,
       cost: Number(form.cost),
+      currency: form.currency,
       purchaseDate: form.purchaseDate || null,
-      expiryDate: form.expiryDate || null
+      expiryDate: form.expiryDate || null,
+      notes: form.notes
     };
 
+    let url = `${BASE_URL}/inventory/licenses/`;
+    let method = "POST";
+
     if (isEdit) {
-      await updateLicense(id, payload);
-    } else {
-      await createLicense(payload);
+      url = `${BASE_URL}/inventory/licenses/${id}`;
+      method = "PUT";
     }
 
-    navigate("/licenses");
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        setStatusMsg("License Saved Successfully!");
+      } else {
+        const t = await res.text();
+        setStatusMsg("Failed to Save License: " + t);
+      }
+    } catch (err) {
+      setStatusMsg("Failed to Save License!");
+    }
   };
 
   return (
@@ -287,7 +326,14 @@ export default function LicenseFormPage() {
 
       <div className="card">
         <form className="form" onSubmit={handleSubmit}>
-          
+
+          {isEdit && (
+            <div className="field">
+              <label>License Id</label>
+              <input type="text" value={id} disabled />
+            </div>
+          )}
+
           <div className="row">
             <div className="field">
               <label>Product Name</label>
@@ -330,9 +376,10 @@ export default function LicenseFormPage() {
                 value={form.licenseType}
                 onChange={handleChange}
               >
-                {licenseTypes.map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
+                <option value={0}>PerUser</option>
+                <option value={1}>PerDevice</option>
+                <option value={2}>Concurrent</option>
+                <option value={3}>Subscription</option>
               </select>
             </div>
           </div>
@@ -349,6 +396,16 @@ export default function LicenseFormPage() {
             </div>
 
             <div className="field">
+              <label>Assigned</label>
+              <input
+                type="number"
+                name="assigned"
+                value={form.assigned}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field">
               <label>Cost</label>
               <input
                 type="number"
@@ -357,7 +414,9 @@ export default function LicenseFormPage() {
                 onChange={handleChange}
               />
             </div>
+          </div>
 
+          <div className="row">
             <div className="field">
               <label>Currency</label>
               <input
@@ -367,9 +426,7 @@ export default function LicenseFormPage() {
                 onChange={handleChange}
               />
             </div>
-          </div>
 
-          <div className="row">
             <div className="field">
               <label>Purchase Date</label>
               <input
@@ -402,13 +459,6 @@ export default function LicenseFormPage() {
           </div>
 
           <div className="actions">
-            <button
-              type="button"
-              className="btn secondary"
-              onClick={() => navigate(-1)}
-            >
-              Cancel
-            </button>
             <button type="submit" className="btn primary">
               Save
             </button>
@@ -416,6 +466,23 @@ export default function LicenseFormPage() {
 
         </form>
       </div>
+
+      {statusMsg && (
+        <div
+          className="status-device-message"
+          style={{
+            backgroundColor: statusMsg.includes("Successfully")
+              ? "#d4edda"
+              : "#f8d7da",
+            color: statusMsg.includes("Successfully")
+              ? "#69a76c"
+              : "#c95a5a",
+          }}
+        >
+          {statusMsg}
+        </div>
+      )}
+
     </div>
   );
 }

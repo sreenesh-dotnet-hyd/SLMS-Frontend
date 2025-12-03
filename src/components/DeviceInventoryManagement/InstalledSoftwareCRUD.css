@@ -57,3 +57,25 @@
 .isc-form button:hover {
   background: #0066d6;
 }
+
+.isc-status {
+  margin-top: 14px;
+  padding: 8px 13px;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+/* Success */
+.isc-status.ok {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #a6d5b9;
+}
+
+/* Fail */
+.isc-status.bad {
+  background: #f8d7da;
+  color: #8b1414;
+  border: 1px solid #e4b5b8;
+}

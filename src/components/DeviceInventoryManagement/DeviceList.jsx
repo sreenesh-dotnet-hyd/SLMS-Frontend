@@ -13,8 +13,9 @@ export default function DeviceList() {
   async function loadDevices() {
     try {
       const token = localStorage.getItem("token");
-  
-      const res = await fetch("https://localhost:7153/inventory/devices",{
+      const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+      console.log(BASE_URL);
+      const res = await fetch(`${BASE_URL}/inventory/devices/`,{
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -60,7 +60,7 @@ const handleSignOut = ()=>{
     { pattern: "/app/software-catalog/software-details", name: "Software Catalog" },
 
     { pattern: "/app/users-list", name: "User Management" },
-    { pattern: "/app/user-profile", name: "User Management" },
+    { pattern: "/app/user-list/crud", name: "User Management" },
     { pattern: "/app/users-devices", name: "User Management" },
 
     { pattern: "/app/licenses", name: "License Management" },
@@ -225,6 +225,7 @@ const handleSignOut = ()=>{
               </div>
               <div className='nav-links'>
                 <NavLink to="/app/users-list" className='nav-link'>Users</NavLink>
+                <NavLink to="/app/users-list/crud" className='nav-link'>Users CRUD</NavLink>
                 {/* <NavLink to="/device-list" className='nav-link'>User Devices</NavLink> */}
                 {/* <NavLink to="/user-profile" className='nav-link'>User Profiles</NavLink> */}
               </div>

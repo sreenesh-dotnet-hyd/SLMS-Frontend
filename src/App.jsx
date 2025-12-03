@@ -147,6 +147,7 @@ import SoftwareDetails from './components/SoftwareCatalog/SoftwareDetails';
 import UserDevices from './components/UserManagementSystem/UserDevices';
 import UserProfile from './components/UserManagementSystem/UserProfile';
 import UsersList from './components/UserManagementSystem/UsersList';
+import UsersCRUD from './components/UserManagementSystem/UsersCRUD';
 
 //NITHIN COMPONENETS
 import LicensesListPage from "./components/LicenseManagement/LicenseListPage";
@@ -219,7 +220,7 @@ function App() {
             <Route path="users-devices" element={<UserDevices  user={{ id: 1, userId: "EMP1001", displayName: "Alice Johnson", department: "Finance" }}/>}/>
             <Route path="user-profile" element={<UserProfile user={{ id: 1, userId: "EMP1001", displayName: "Alice Johnson", department: "Finance" }}/>}/>
             <Route path="users-list" element={<UsersList/>}/>
-
+            <Route path="users-list/crud" element={<UsersCRUD/>}/>
 
 
             {/* Licenses */}

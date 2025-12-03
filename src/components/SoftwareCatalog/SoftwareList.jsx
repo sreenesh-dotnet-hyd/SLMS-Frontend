@@ -1,5 +1,5 @@
 // File: SoftwareCatalog.jsx
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./SoftwareList.css";
 
 const sampleData = [
@@ -43,10 +43,38 @@ function StatusPill({ status }) {
   return <span className={`status-pill ${status.toLowerCase()}`}>{status}</span>;
 }
 
-export default function SoftwareList({ data = sampleData }) {
+export default function SoftwareList() {
+  const token = localStorage.getItem("token");
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const [data, setData] = useState(sampleData);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
+
+  useEffect(() => {
+    loadCatalog();
+  }, []);
+
+  const loadCatalog = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/inventory/catalog/`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        const fetchedData = await res.json();
+        const normalized = fetchedData.map(d => ({
+          ...d,
+          status: d.status === 1 ? "Active" : "Retired",
+        }));
+        setData(normalized);
+      }
+    } catch (e) {}
+  };
 
   const categories = useMemo(() => {
     const set = new Set(data.map(d => d.category || "Uncategorized"));

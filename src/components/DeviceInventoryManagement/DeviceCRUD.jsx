@@ -23,9 +23,11 @@ export default function DevicesCRUD() {
   }, []);
 
   const [users, setUsers] = useState([]);
-
+  
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("BASE URL:", BASE_URL);
   const loadUsersData = async () => {
-    const res = await fetch("https://localhost:7153/inventory/users",
+    const res = await fetch(`${BASE_URL}/inventory/users`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -101,8 +103,8 @@ export default function DevicesCRUD() {
         department: formData.department,
         location: formData.location || "",
         lastSeen: new Date().toISOString()
-      }))
-      const res = await fetch("https://localhost:7153/inventory/devices/", {
+      }));
+      const res = await fetch(`${BASE_URL}/inventory/devices/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -169,7 +171,7 @@ const handleUpdateSubmit = async (action) => {
         location: formData.location || "",
         lastSeen: new Date().toISOString()
       }))
-      const res = await fetch(`https://localhost:7153/inventory/devices/${Number(formData.deviceId)}`, {
+      const res = await fetch(`${BASE_URL}/inventory/devices/${Number(formData.deviceId)}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -219,7 +221,7 @@ const handleUpdateSubmit = async (action) => {
 const handleDeleteSubmit = async () => {
   try {
     const res = await fetch(
-      `https://localhost:7153/inventory/devices/${Number(formData.deviceId)}`,
+      `${BASE_URL}/inventory/devices/${Number(formData.deviceId)}`,
       {
         method: "DELETE",
         headers: {
